@@ -1,0 +1,46 @@
+Name:                   poly-arity
+Version:                0.0.0
+Author:                 Athan Clark <athan.clark@gmail.com>
+Maintainer:             Athan Clark <athan.clark@gmail.com>
+License:                BSD3
+License-File:           LICENSE
+-- Synopsis:
+-- Description:
+Cabal-Version:          >= 1.10
+Build-Type:             Simple
+
+Library
+  Default-Language:     Haskell2010
+  HS-Source-Dirs:       src
+  GHC-Options:          -Wall
+  Exposed-Modules:      Data.Function.Poly
+  Other-Modules:        Data.Function.Poly.Internal
+  Build-Depends:        base >= 4 && < 5
+
+Executable poly-arity
+  Default-Language:     Haskell2010
+  HS-Source-Dirs:       src
+  GHC-Options:          -Wall -O2
+  Main-Is:              Main.hs
+  Build-Depends:        base >= 4 && < 5
+                      , optparse-applicative
+                      , yaml
+                      , aeson
+                      , mtl
+                      , directory
+
+Test-Suite spec
+  Type:                 exitcode-stdio-1.0
+  Default-Language:     Haskell2010
+  Hs-Source-Dirs:       src
+                      , test
+  Ghc-Options:          -Wall
+  Main-Is:              Spec.hs
+  Build-Depends:        base
+                      , hspec
+                      , QuickCheck
+                      , quickcheck-instances
+
+Source-Repository head
+  Type:                 git
+--  Location:
