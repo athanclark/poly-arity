@@ -17,6 +17,7 @@ Library
   Other-Modules:        Data.Function.Poly.Internal
   Build-Depends:        base >= 4 && < 5
                       , constraints
+                      , HList
 
 Test-Suite spec
   Type:                 exitcode-stdio-1.0
