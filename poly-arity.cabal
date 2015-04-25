@@ -14,7 +14,6 @@ Library
   HS-Source-Dirs:       src
   GHC-Options:          -Wall
   Exposed-Modules:      Data.Function.Poly
-  Other-Modules:        Data.Function.Poly.Internal
   Build-Depends:        base >= 4 && < 5
                       , constraints
                       , HList
@@ -33,4 +32,4 @@ Test-Suite spec
 
 Source-Repository head
   Type:                 git
---  Location:
+  Location:             https://github.com/athanclark/poly-arity.git

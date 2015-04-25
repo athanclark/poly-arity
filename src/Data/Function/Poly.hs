@@ -41,15 +41,3 @@ instance ConsumeArity '[] r r where
 instance ( ConsumeArity xs f r
          , ExpectArity (x ': xs) (x -> f) )=> ConsumeArity (x ': xs) (x -> f) r where
   appN f (HCons x xs) = appN (f x) xs
-
--- class ConsumeArity (xs :: [*]) (f :: *) result | xs f -> result where
---   appN :: f -> Head xs -> TypeListToArity (Tail xs) result
---
--- instance ConsumeArity (x ': '[]) (x -> r) r where
---   appN f x = f x
---
--- instance ConsumeArity xs rs r => ConsumeArity (x ': xs) (x -> rs) r where
---   appN f x = appN (f x)
-
---instance ConsumeArity '[] r r where
---  appN
