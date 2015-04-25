@@ -21,6 +21,11 @@ type family TypeListToArity (xs :: [*]) (r :: *) :: * where
   TypeListToArity '[] r = r -- basis
   TypeListToArity (x ': xs) r = x -> TypeListToArity xs r
 
+type family ArityMinusTypeList (r :: *) (xs :: [*]) :: * where
+  ArityMinusTypeList r '[] = r -- basis
+  ArityMinusTypeList (x -> r) (x ': xs) = ArityMinusTypeList r xs
+
+
 type family ExpectArity (xs :: [*]) (f :: *) :: Constraint where
   ExpectArity '[] f = () -- basis
   ExpectArity (x ': xs) (x -> remainder) = ExpectArity xs remainder
