@@ -46,3 +46,8 @@ instance ConsumeArity '[] r r where
 instance ( ConsumeArity xs f r
          , ExpectArity (x ': xs) (x -> f) )=> ConsumeArity (x ': xs) (x -> f) r where
   appN f (HCons x xs) = appN (f x) xs
+
+
+type family HasResult (f :: *) (r :: *) :: Constraint where
+  HasResult r r = ()
+  HasResult (x -> r') r = HasResult r' r
