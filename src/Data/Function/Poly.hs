@@ -1,5 +1,6 @@
 {-# LANGUAGE
-    TypeFamilies
+    GADTs
+  , TypeFamilies
   , KindSignatures
   , DataKinds
   , ConstraintKinds
@@ -14,7 +15,10 @@
 module Data.Function.Poly where
 
 import Data.Constraint
-import Data.HList
+
+data HList (xs :: [*]) where
+  HNil :: HList '[]
+  HCons :: x -> HList xs -> HList (x ': xs)
 
 
 type family TypeListToArity (xs :: [*]) (r :: *) :: * where
