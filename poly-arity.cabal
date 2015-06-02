@@ -8,6 +8,7 @@ Synopsis:               Tools for working with functions of undetermined arity
 -- Description:
 Cabal-Version:          >= 1.10
 Build-Type:             Simple
+Category:               Data, Function
 
 Library
   Default-Language:     Haskell2010
