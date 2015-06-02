@@ -15,11 +15,7 @@
 module Data.Function.Poly where
 
 import Data.Constraint
-
-data HList (xs :: [*]) where
-  HNil :: HList '[]
-  HCons :: x -> HList xs -> HList (x ': xs)
-
+import Data.HList
 
 type family TypeListToArity (xs :: [*]) (r :: *) :: * where
   TypeListToArity '[] r = r -- basis
