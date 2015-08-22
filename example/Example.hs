@@ -1,17 +1,3 @@
-poly-arity
-==========
-
-> Tools for working with functions of undetermined arity.
-
-Most of these tools are type-level constructs to ensure that your function types
-will have a certain initial shape, because the function arrow `->` itself makes
-a type-level list, where each `(->)` would be like `(:)`.
-
-## Usage
-
-Your first try might look something like this:
-
-```haskell
 {-# LANGUAGE
     TypeFamilies
   , TypeOperators
@@ -42,7 +28,6 @@ bar :: ( ArityMinusTypeList f xs ~ r -- Proves replacement
        ) => f -> f
 bar = id
 
--- warning - the above don't actually work :\
 
 xs :: HList (Integer ': Bool ': Maybe () ': '[])
 xs = HCons (5 :: Integer) $ HCons True $ HCons (Just ()) HNil
@@ -50,11 +35,3 @@ xs = HCons (5 :: Integer) $ HCons True $ HCons (Just ()) HNil
 
 baz :: Integer -> Bool -> Maybe () -> String -> ()
 baz _ _ _ _ = ()
-```
-
-then, we can toy with `appN` in `ghci`:
-
-```haskell
-λ> :t baz `appN` xs
-baz `appN` xs :: String -> ()
-```
