@@ -29,6 +29,10 @@ type family ArityToTypeList (r :: *) :: [*] where
   ArityToTypeList (x -> r) = x ': ArityToTypeList r
   ArityToTypeList r = '[]
 
+type family Result (f :: *) :: * where
+  Result (x -> r) = Result r
+  Result r = r
+
 -- | Trim an n-ary function / chain of arrows @->@ with a type-level list of
 -- types @xs@, where each element of @xs@ __must__ unify with each element of
 -- the cons-list made with @->@.
@@ -36,11 +40,27 @@ type family ArityMinusTypeList (r :: *) (xs :: [*]) :: * where
   ArityMinusTypeList r '[] = r -- basis
   ArityMinusTypeList (x -> r) (x ': xs) = ArityMinusTypeList r xs
 
+-- | Injects a type to the base of the function arity chain.
+type family InjectLast (x :: *) (f :: *) :: * where
+  InjectLast x f = TypeListToArity (Append (ArityToTypeList f) x) (Result f)
+
+
+type family Append (xs :: [*]) (x :: *) :: [*] where
+  Append '[] y = y ': '[]
+  Append (x ': xs) y = x ': Append xs y
+
+
+
 -- | Inductively constrain a function's initial arity to match a type list;
 -- as a read-only style of static arity assurance.
 type family ExpectArity (xs :: [*]) (f :: *) :: Constraint where
   ExpectArity '[] f = () -- basis
   ExpectArity (x ': xs) (x -> remainder) = ExpectArity xs remainder
+
+-- | Expect the last parameter in your stack of arity to have a type.
+type family ExpectLast (x :: *) (f :: *) :: Constraint where
+  ExpectLast x (x -> remainder) = () -- basis
+  ExpectLast x (y -> remainder) = ExpectLast x remainder
 
 -- | Duplicate of <http://hackage.haskell.org/package/singletons-1.1.2.1/docs/Data-Promotion-Prelude-List.html#g:1 singletons>
 -- @Head@ function for kind-polymorphic type-level lists.
