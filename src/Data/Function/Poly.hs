@@ -29,6 +29,7 @@ type family ArityToTypeList (r :: *) :: [*] where
   ArityToTypeList (x -> r) = x ': ArityToTypeList r
   ArityToTypeList r = '[]
 
+
 type family Result (f :: *) :: * where
   Result (x -> r) = Result r
   Result r = r
@@ -39,6 +40,13 @@ type family Result (f :: *) :: * where
 type family ArityMinusTypeList (r :: *) (xs :: [*]) :: * where
   ArityMinusTypeList r '[] = r -- basis
   ArityMinusTypeList (x -> r) (x ': xs) = ArityMinusTypeList r xs
+
+
+type ArityTypeListIso c l r =
+  ( ArityMinusTypeList c l ~ r
+  , c ~ TypeListToArity l r
+  )
+
 
 -- | Injects a type to the base of the function arity chain.
 type family InjectLast (x :: *) (f :: *) :: * where
