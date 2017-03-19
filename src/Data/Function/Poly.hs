@@ -10,12 +10,12 @@
   , PolyKinds
   , FlexibleInstances
   , UndecidableInstances
+  , UndecidableSuperClasses
   #-}
 
 module Data.Function.Poly where
 
 import Data.Constraint
-import Data.HList
 
 -- | Provide a type-level list of /types/ @xs@, and a final result type @r@,
 -- construct a chain of arrows @->@ / n-ary function (which is right-associative)
@@ -79,6 +79,11 @@ type family Tail (xs :: [k]) :: [k] where
   Tail (x ': xs) = xs
 
 
+data HList (xs :: [*]) where
+  HNil  :: HList '[]
+  HCons :: (x :: *) -> HList xs -> HList (x ': xs)
+
+
 -- | Lift the @HList@'s internal type-level list of types to a constraint context.
 class ExpectArity xs f => ConsumeArity (xs :: [*]) (f :: *) result | xs f -> result where
   -- | Use a /heterogeneously-typed/ list of values as input to an n-ary function,
@@ -89,7 +94,8 @@ instance ConsumeArity '[] r r where
   appN r _ = r
 
 instance ( ConsumeArity xs f r
-         , ExpectArity (x ': xs) (x -> f) )=> ConsumeArity (x ': xs) (x -> f) r where
+         , ExpectArity (x ': xs) (x -> f)
+         ) => ConsumeArity (x ': xs) (x -> f) r where
   appN f (HCons x xs) = appN (f x) xs
 
 
